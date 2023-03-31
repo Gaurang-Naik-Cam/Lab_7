@@ -26,6 +26,30 @@
         <item name="android:fontFamily">sans-serif-black</item>
     </style>
 
+    <style name="Theme.ScoreKeeper.Scoreboard">
+        <item name="android:text">0</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">96sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Theme.ScoreKeeper.GameTitle">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:text">\nAmerican Football \n LIVE score</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">#FFEB3B</item>
+        <item name="android:textSize">34sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Theme.ScoreKeeper.PointsText">
+        <item name="android:text">Points</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="Theme.ScoreKeeper.Light" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <item name="colorPrimary">@color/light_purple</item>
         <item name="colorPrimaryVariant">@color/light_purple_500</item>
