@@ -27,7 +27,7 @@
     </style>
 
     <style name="Theme.ScoreKeeper.Scoreboard">
-        <item name="android:text">0</item>
+        <item name="android:text">0</item> a00000000000000000000000
         <item name="android:textAlignment">center</item>
         <item name="android:textSize">96sp</item>
         <item name="android:textStyle">bold</item>

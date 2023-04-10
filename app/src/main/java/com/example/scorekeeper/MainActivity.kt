@@ -2,12 +2,37 @@ package com.example.scorekeeper
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import android.view.Menu
+import android.view.MenuItem
 
 class MainActivity : AppCompatActivity() {
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.nav_menu,menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.nav_settings -> { Toast.makeText(this,"Settings are selected",Toast.LENGTH_SHORT).show() }
+            R.id.nav_about -> {
+               var infoMessage = " Developer Info:\r\n Name: Gaurang Naik \r\n Student # A00250808 \r\n Course Name: JAV-1001 App Development for Android"
+                Toast.makeText(this,infoMessage,Toast.LENGTH_LONG).show() }
+
+        }
+
+
+
+        return super.onOptionsItemSelected(item)
+    }
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
