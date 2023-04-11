@@ -17,11 +17,13 @@ import com.example.scorekeeper.settings
 
 class MainActivity : AppCompatActivity() {
 
+    //adding menu to the Actionbar
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.nav_menu,menu)
         return true
     }
 
+    // Overriding method to implement custom menu
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.nav_settings -> {
@@ -29,12 +31,10 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
                 return true
             }
-
             R.id.nav_about -> {
                var infoMessage = " Developer Info:\r\n Name: Gaurang Naik \r\n Student # A00250808 \r\n Course Name: JAV-1001 App Development for Android"
                 Toast.makeText(this,infoMessage,Toast.LENGTH_LONG).show()
             }
-
             R.id.nav_exit -> {
                 finishAffinity()
             }
@@ -121,6 +121,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //This is event handler for reducing the points to Team2
     fun decrementScoreTeam2(view: android.view.View) {
         val spinnerWarriors: Spinner = findViewById(R.id.spinnerTeam2);
         var selectedItem = spinnerWarriors.selectedItem
@@ -145,6 +146,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    //Android lifecycle event when stop gets called saving or clearing the data as per the settings
     override fun onStop() {
 
         if(IsSettingEnabled()){
@@ -156,6 +158,7 @@ class MainActivity : AppCompatActivity() {
             super.onStop()
     }
 
+    // This function is used to erase the stored scores and set them to default 0
     private fun ClearLocalScores() {
         val sharedPreferences = getSharedPreferences("scores", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
@@ -164,7 +167,7 @@ class MainActivity : AppCompatActivity() {
             putString("team2_score","0")
         }.apply()
     }
-
+    //This function is used to retrieve the stored scores and assign them to the respective score card.
     private fun LoadScores(){
 
         val textViewScoreTeam1: TextView = findViewById(R.id.textViewScoreTeam1);
@@ -178,15 +181,14 @@ class MainActivity : AppCompatActivity() {
         textViewScoreTeam2.text = ScoreTeam2
     }
 
+    //this function returns the setting value (stored in the local storage)
     private fun IsSettingEnabled() : Boolean {
 
-//        return getSharedPreferences("settings", Context.MODE_PRIVATE)
-//            .getBoolean ("isChecked",false)
-        val sharedPreferences  = getSharedPreferences("settings", Context.MODE_PRIVATE)
-        val isChecked = sharedPreferences.getBoolean ("isChecked",false)
-        return  isChecked
+        return getSharedPreferences("settings", Context.MODE_PRIVATE)
+            .getBoolean("isChecked", false)
     }
 
+    //This function stores the scores locally
     private fun SaveScrores() {
         val textViewScoreTeam1: TextView = findViewById(R.id.textViewScoreTeam1);
         val textViewScoreTeam2: TextView = findViewById(R.id.textViewScoreTeam2);
@@ -203,6 +205,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    //Android lifecycle event when stop gets called saving or clearing the data as per the settings
     override fun onDestroy() {
 
         if(IsSettingEnabled()){

@@ -9,10 +9,10 @@ class settings : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-        LoadSettings()
-
+        LoadSettings() //Loading the settings on Create
         val toggleButton : ToggleButton = findViewById(R.id.toggleButtonSetting);
 
+        //Everytime toggle button changes the status we are storing the settings in the local storage
         toggleButton.setOnCheckedChangeListener{ _,isChecked ->
 
                 val sharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE)
@@ -21,9 +21,9 @@ class settings : AppCompatActivity() {
                     putBoolean("isChecked",isChecked)
                 }.commit()
         }
-
     }
 
+    //This function loads the setting from local storage and assigns it to toggle button
     private fun LoadSettings(){
         val toggleButton : ToggleButton = findViewById(R.id.toggleButtonSetting);
         val sharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE)
