@@ -1,5 +1,8 @@
 package com.example.scorekeeper
 
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -9,6 +12,8 @@ import android.widget.TextView
 import android.widget.Toast
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ToggleButton
+import com.example.scorekeeper.settings
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,23 +24,30 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.nav_settings -> { Toast.makeText(this,"Settings are selected",Toast.LENGTH_SHORT).show() }
+            R.id.nav_settings -> {
+                val intent = Intent(this, settings::class.java)
+                startActivity(intent)
+                return true
+            }
+
             R.id.nav_about -> {
                var infoMessage = " Developer Info:\r\n Name: Gaurang Naik \r\n Student # A00250808 \r\n Course Name: JAV-1001 App Development for Android"
-                Toast.makeText(this,infoMessage,Toast.LENGTH_LONG).show() }
+                Toast.makeText(this,infoMessage,Toast.LENGTH_LONG).show()
+            }
 
+            R.id.nav_exit -> {
+                finishAffinity()
+            }
         }
-
-
-
         return super.onOptionsItemSelected(item)
     }
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        if(IsSettingEnabled()){
+            LoadScores()
+        }
 
         // Adding a common adapter to both team1 and team 2 spinner class
         val spinnerMavericks: Spinner = findViewById(R.id.spinnerTeam1)
@@ -131,5 +143,74 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    override fun onStop() {
+
+        if(IsSettingEnabled()){
+            SaveScrores()
+        }
+        else{
+            ClearLocalScores()
+        }
+            super.onStop()
+    }
+
+    private fun ClearLocalScores() {
+        val sharedPreferences = getSharedPreferences("scores", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.apply{
+            putString("team1_score","0")
+            putString("team2_score","0")
+        }.apply()
+    }
+
+    private fun LoadScores(){
+
+        val textViewScoreTeam1: TextView = findViewById(R.id.textViewScoreTeam1);
+        val textViewScoreTeam2: TextView = findViewById(R.id.textViewScoreTeam2);
+
+        val sharedPreferences = getSharedPreferences("scores", Context.MODE_PRIVATE)
+        val ScoreTeam1 = sharedPreferences.getString("team1_score","0");
+        val ScoreTeam2 = sharedPreferences.getString("team2_score","0");
+
+        textViewScoreTeam1.text = ScoreTeam1
+        textViewScoreTeam2.text = ScoreTeam2
+    }
+
+    private fun IsSettingEnabled() : Boolean {
+
+//        return getSharedPreferences("settings", Context.MODE_PRIVATE)
+//            .getBoolean ("isChecked",false)
+        val sharedPreferences  = getSharedPreferences("settings", Context.MODE_PRIVATE)
+        val isChecked = sharedPreferences.getBoolean ("isChecked",false)
+        return  isChecked
+    }
+
+    private fun SaveScrores() {
+        val textViewScoreTeam1: TextView = findViewById(R.id.textViewScoreTeam1);
+        val textViewScoreTeam2: TextView = findViewById(R.id.textViewScoreTeam2);
+
+        val ScoreTeam1 = textViewScoreTeam1.text.toString()
+        val ScoreTeam2 = textViewScoreTeam2.text.toString()
+
+        val sharedPreferences = getSharedPreferences("scores", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.apply{
+            putString("team1_score",ScoreTeam1)
+            putString("team2_score",ScoreTeam2)
+        }.commit()
+
+    }
+
+    override fun onDestroy() {
+
+        if(IsSettingEnabled()){
+            SaveScrores()
+        }
+        else{
+            ClearLocalScores()
+        }
+        super.onDestroy()
     }
 }
